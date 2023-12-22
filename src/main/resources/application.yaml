@@ -2,3 +2,15 @@ spring:
   security:
     user:
       password: 123456
+    jwt:
+      key: djt
+      expire: 7
+  datasource:
+    url: jdbc:mysql://localhost:3307/campus_forum?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: root
+  data:
+    redis:
+      host: localhost
