@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 
 @Configuration
+@Slf4j
 public class SecurityConfig {
 
     @Resource
@@ -92,7 +94,7 @@ public class SecurityConfig {
 
     //登录失败处理器
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        System.out.println("登录失败");
+        log.info("登录失败");
         WebUtils.renderString(response, ResponseResult.failure(401,exception.getMessage()).asToJsonString());
     }
 
@@ -102,8 +104,8 @@ public class SecurityConfig {
         // 判断jwt是否可以废弃，成功废弃返回退出成功信息，否则返回退出失败
         if (jwtUtils.invalidateJwt(authorization)){
             WebUtils.renderString(response,ResponseResult.success("退出成功").asToJsonString());
-        }
+        }else {
             WebUtils.renderString(response,ResponseResult.success("jwt错误，退出失败").asToJsonString());
-
+        }
     }
 }

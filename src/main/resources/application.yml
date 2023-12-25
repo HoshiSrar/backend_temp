@@ -1,3 +1,5 @@
+cors:
+  allowable: "http://localhost:5173"
 spring:
   security:
     user:
