@@ -1,4 +1,4 @@
-package com.example.exceptionAndHandler.exception;
+package com.example.exception;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 

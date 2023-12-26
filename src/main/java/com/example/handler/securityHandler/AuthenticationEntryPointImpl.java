@@ -1,8 +1,8 @@
-package com.example.config.securityHandler;
+package com.example.handler.securityHandler;
 
 
 import com.alibaba.fastjson2.JSON;
-import com.example.entity.ResponseResult;
+import com.example.entity.ResponseBean;
 import com.example.utils.WebUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,16 +23,16 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException e) throws IOException, ServletException {
-        /**认证失败处理器*/
+        //认证失败处理器
         e.printStackTrace();
         log.info("认证处理处理器开始");
-        ResponseResult result = null;
+        ResponseBean result = null;
         if(e instanceof BadCredentialsException){
-            result = ResponseResult.failure(505,e.getMessage());
+            result = ResponseBean.failure(505,e.getMessage());
         }else if(e instanceof InsufficientAuthenticationException){
-            result = ResponseResult.failure(401,"需要登录");
+            result = ResponseBean.failure(401,"需要登录");
         }else {
-            result = ResponseResult.failure(500,"认证获授权失败");
+            result = ResponseBean.failure(500,"认证获授权失败");
         }
         log.info("认证处理器结束");
         //响应给前端

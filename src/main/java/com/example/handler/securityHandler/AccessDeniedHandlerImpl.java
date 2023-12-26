@@ -1,8 +1,8 @@
-package com.example.config.securityHandler;
+package com.example.handler.securityHandler;
 
 
 import com.alibaba.fastjson2.JSON;
-import com.example.entity.ResponseResult;
+import com.example.entity.ResponseBean;
 import com.example.utils.WebUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         log.info("权限不足");
         e.printStackTrace();
 
-        ResponseResult result = ResponseResult.unauthorized("无权限操作");
+        ResponseBean result = ResponseBean.unauthorized("无权限操作");
         //响应给前端
         WebUtils.renderString(response, JSON.toJSONString(result));
     }

@@ -1,6 +1,16 @@
 cors:
   allowable: "http://localhost:5173"
 spring:
+  mail:
+    host: smtp.qq.com
+    username: 568541648@qq.com
+    password: nykrgvozkppmbbfa
+  rabbitmq:
+#    addresses: localhost
+    username: root
+    password: root
+    addresses: 192.168.241.128
+    virtual-host: /test
   security:
     user:
       password: 123456
@@ -16,3 +26,5 @@ spring:
   data:
     redis:
       host: localhost
+limit:
+  time: 60

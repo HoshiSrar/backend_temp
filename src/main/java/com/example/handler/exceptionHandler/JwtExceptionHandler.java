@@ -1,8 +1,8 @@
-package com.example.exceptionAndHandler.handler.exceptionHandler;
+package com.example.handler.exceptionHandler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.entity.ResponseResult;
-import com.example.exceptionAndHandler.exception.SystemJwtVerificationException;
+import com.example.entity.ResponseBean;
+import com.example.exception.SystemJwtVerificationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,9 +16,9 @@ public class JwtExceptionHandler {
      * @return
      */
     @ExceptionHandler(JWTVerificationException.class)
-    public ResponseResult JwtVerificationException(JWTVerificationException e){
+    public ResponseBean JwtVerificationException(JWTVerificationException e){
         SystemJwtVerificationException exception = new SystemJwtVerificationException("Jwt解析错误");
         log.error("Jwt异常！",e);
-        return ResponseResult.failure(302,exception.getMsg());
+        return ResponseBean.failure(302,exception.getMsg());
     }
 }
