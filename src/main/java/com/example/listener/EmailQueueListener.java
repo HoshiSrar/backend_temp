@@ -1,9 +1,11 @@
 package com.example.listener;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import java.util.Map;
  */
 @Component
 @RabbitListener(queues = "mail")
+@Slf4j
 public class EmailQueueListener {
     @Resource
     JavaMailSender sender;
@@ -37,7 +40,11 @@ public class EmailQueueListener {
             return;
         }
         // 邮件发送
-        sender.send(message);
+        try {
+            sender.send(message);
+        }catch (Exception e){
+            log.info("偷懒，发送邮件出现了异常，不想处理。异常信息：[{}:{},{}]",e.getClass().getName(),e.getMessage(),e.getCause());
+        }
 
     }
 

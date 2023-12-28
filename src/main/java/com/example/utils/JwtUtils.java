@@ -57,14 +57,14 @@ public class JwtUtils {
      * @param jwt token字符串
      * @return DecodedJWT 对象
      */
-    public  DecodedJWT parseToJWT(String jwt){
+    public  DecodedJWT parseToJWT(String jwt)throws JWTVerificationException{
         String jwtToken = convertToken(jwt);
         if (jwtToken == null) return null;
         Algorithm algorithm = Algorithm.HMAC256(jwtKey);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         // todo 这里可能会有bug，全局处理了异常 ，可能不会返回null给调用方法
         DecodedJWT verify = jwtVerifier.verify(jwtToken);
-        //
+
         if (isInvalidToken(verify.getId())) return null;
         Date expiresAt = verify.getExpiresAt();
         // 未过期的令牌可以返回

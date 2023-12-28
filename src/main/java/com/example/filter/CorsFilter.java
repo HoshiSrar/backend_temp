@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static com.example.utils.constants.SystemConstants.ORDER_CORS;
 
+/**
+ * Cors处理
+ */
 @Component
 @Order(ORDER_CORS)
 public class CorsFilter extends HttpFilter {
@@ -26,7 +29,7 @@ public class CorsFilter extends HttpFilter {
     }
 
     /**
-     * 允许跨域请求配置
+     * 想请求体中添加允许跨域请求配置
      * @param req
      * @param rep
      */

@@ -25,7 +25,7 @@ public class FlowUtils {
         if (Boolean.TRUE.equals(template.hasKey(key))){
             return false;
         }else {
-            template.opsForValue().set(key, "这是邮箱限制关键字，还剩下"+blockTime+"分钟",blockTime, TimeUnit.SECONDS);
+            template.opsForValue().set(key, "这是邮箱限制关键字，还剩下"+blockTime+"秒",blockTime, TimeUnit.SECONDS);
             return true;
         }
     }

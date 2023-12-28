@@ -1,5 +1,6 @@
 package com.example.filter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.utils.JwtUtils;
 import jakarta.annotation.Resource;
@@ -38,15 +39,19 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException{
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         //获取请求头中的token
         String token = request.getHeader("Authorization");
-
         logger.info("token:"+token);
-
+        DecodedJWT jwt = null;
         //DecodedJWT jwt;
-        DecodedJWT jwt = jwtUtils.parseToJWT(token);
+        try {
+            jwt = jwtUtils.parseToJWT(token);
+        }catch (JWTVerificationException e){
+            log.info("发生了JWT错误，全局异常处理不到，不干了");
+        }
+
         if (jwt!=null){
             log.info("进入过滤器处理");
             UserDetails user = jwtUtils.toUser(jwt);

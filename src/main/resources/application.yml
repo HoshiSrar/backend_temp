@@ -4,7 +4,7 @@ spring:
   mail:
     host: smtp.qq.com
     username: 568541648@qq.com
-    password: nykrgvozkppmbbfa
+    password: oeaiayikgqxebbie
   rabbitmq:
 #    addresses: localhost
     username: root
@@ -27,4 +27,4 @@ spring:
     redis:
       host: localhost
 limit:
-  time: 60
+  time: 1
