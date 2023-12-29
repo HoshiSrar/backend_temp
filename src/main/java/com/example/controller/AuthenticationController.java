@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.entity.ResponseBean;
 import com.example.entity.vo.request.EmailRegisterVo;
 import com.example.entity.vo.request.ResetVo;
-import com.example.entity.vo.response.UserVo;
 import com.example.service.impl.EmailServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +43,7 @@ public class AuthenticationController {
         return ResponseBean.success(s);
 
     }
+
 
 
 }

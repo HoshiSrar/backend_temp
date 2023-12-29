@@ -32,4 +32,9 @@ public class SystemConstants
      */
     public static final int ORDER_LIMIT = -101;
 
+    /**
+     * 请求自定义属性
+     */
+    public final static String ATTR_USER_ID = "userId";
+
 }

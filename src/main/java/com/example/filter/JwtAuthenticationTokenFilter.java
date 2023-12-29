@@ -3,6 +3,7 @@ package com.example.filter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.utils.JwtUtils;
+import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,9 +44,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         //获取请求头中的token
         String token = request.getHeader("Authorization");
-        //logger.info("token:"+token);
         DecodedJWT jwt = null;
-        //DecodedJWT jwt;
         try {
             jwt = jwtUtils.parseToJWT(token);
         }catch (JWTVerificationException e){
@@ -53,15 +52,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         if (jwt!=null){
-            log.info("进入过滤器处理");
             UserDetails user = jwtUtils.toUser(jwt);
+            // 生成 security可使用的 token
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user,null, user.getAuthorities());
             //token添加Request的相关信息作为 UserDetails 的详细信息
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            request.setAttribute("id", jwtUtils.toId(jwt));
+            request.setAttribute(SystemConstants.ATTR_USER_ID, jwtUtils.toId(jwt));
 
         }
         filterChain.doFilter(request, response);

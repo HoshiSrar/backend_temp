@@ -1,6 +1,5 @@
 package com.example.filter;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.example.entity.ResponseBean;
 import com.example.utils.RedisCache;
 import com.example.utils.WebUtils;
@@ -8,14 +7,11 @@ import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -26,10 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Order(SystemConstants.ORDER_LIMIT)
-public class LowLimitFilter extends HttpFilter {
-    Integer i = 0;
-    int count = 0;
-    int success = 0;
+public class FlowLimitFilter extends HttpFilter {
     @Value("${limit.ipRequestLimitNumber}")
     Integer ipRequestLimitNumber;
     @Resource
@@ -38,15 +31,9 @@ public class LowLimitFilter extends HttpFilter {
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 对短时间大量请求，超过限制的 ip 进行暂时性封禁。放行所有未被封禁的ip
         String addr = request.getRemoteAddr();
-        count++;
-        System.out.println("一共有"+count+"个请求访问");
         if (IpHasBan(addr)) {
-            i++;
-            System.out.println(addr+"被封禁想要访问"+i+"次");
             WebUtils.renderString(response,ResponseBean.failure(401,"请求过快，请稍后再试").asToJsonString());
         }else {
-            success++;
-            System.out.println("成功访问"+success+"次");
             tryCount(addr);
             chain.doFilter(request, response);
         }

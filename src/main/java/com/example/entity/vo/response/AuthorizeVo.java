@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Accessors(chain = true)
-public class UserVo {
+public class AuthorizeVo {
     String userName;
     String role;
     String token;

@@ -1,37 +1,3 @@
-cors:
-  allowable: "http://localhost:5173"
-limit:
-#  邮箱限制时间，单位秒。
-  time: 1
-#  同一ip的请求每分钟限制上限。
-  ipRequestLimitNumber : 30
 spring:
-  mail:
-    host: smtp.qq.com
-    username: 568541648@qq.com
-    password: oeaiayikgqxebbie
-  rabbitmq:
-    addresses: localhost
-    username: root
-    password: root
-#    addresses: 192.168.241.128
-    virtual-host: /test
-  security:
-    user:
-      password: 123456
-    jwt:
-      key: djt
-      expire: 7
-  datasource:
-    url: jdbc:mysql://localhost:3307/campus_forum?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      username: root
-      password: root
-  data:
-    redis:
-      host: localhost
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  profiles:
+    active: '@environment@'

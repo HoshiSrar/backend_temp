@@ -39,6 +39,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public User findUserById(int id) {
+        return getById(id);
+    }
+
+    @Override
     public boolean updateUserPasswordByEmail(User user) {
         boolean update = lambdaUpdate().eq(User::getEmail, user.getEmail())
                 .set(User::getPassword, user.getPassword())

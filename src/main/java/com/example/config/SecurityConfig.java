@@ -1,7 +1,7 @@
 package com.example.config;
 
 import com.example.entity.ResponseBean;
-import com.example.entity.vo.response.UserVo;
+import com.example.entity.vo.response.AuthorizeVo;
 import com.example.filter.JwtAuthenticationTokenFilter;
 import com.example.service.impl.UserServiceImpl;
 import com.example.utils.JwtUtils;
@@ -84,12 +84,12 @@ public class SecurityConfig {
         Integer id = service.findUserByNameOrEmail(user.getUsername()).getId();
         //创建jwt
         String jwtToken = jwtUtils.createJwt(user, id, user.getUsername());
-        UserVo userVo = new UserVo()
+        AuthorizeVo authorizeVo = new AuthorizeVo()
                 .setExpire(jwtUtils.expireTime())
                 .setRole(user.getAuthorities().toString())
                 .setToken(jwtToken)
                 .setUserName(user.getUsername());
-        WebUtils.renderString(response, ResponseBean.success(userVo).asToJsonString());
+        WebUtils.renderString(response, ResponseBean.success(authorizeVo).asToJsonString());
     }
 
     //登录失败处理器
