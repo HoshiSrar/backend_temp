@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.entity.ResponseBean;
 import com.example.entity.vo.request.EmailRegisterVo;
+import com.example.entity.vo.request.ResetVo;
 import com.example.entity.vo.response.UserVo;
 import com.example.service.impl.EmailServiceImpl;
 import jakarta.annotation.Resource;
@@ -30,9 +31,19 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseBean<String> registerUser(@RequestBody @Valid EmailRegisterVo registerVo){
         String message = emailService.registerEmailAccount(registerVo);
-
         return ResponseBean.success(message);
+    }
+    @PostMapping("/reset-confirm")
+    public ResponseBean<String> resetConfirm(@RequestBody ResetVo vo){
+        String s = emailService.resetConfirm(vo);
+        return ResponseBean.success(s);
+    }
+    @PostMapping("/reset-password")
+    public ResponseBean<String> resetPassword(@RequestBody ResetVo vo){
+        String s = emailService.restEmailAccountPassword(vo);
+        return ResponseBean.success(s);
 
     }
+
 
 }

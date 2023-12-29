@@ -43,7 +43,7 @@ public class EmailQueueListener {
         try {
             sender.send(message);
         }catch (Exception e){
-            log.info("偷懒，发送邮件出现了异常，不想处理。异常信息：[{}:{},{}]",e.getClass().getName(),e.getMessage(),e.getCause());
+            log.info("偷懒，发送邮件出现了异常，就打个日志。异常信息：[{}:{},{}]",e.getClass().getName(),e.getMessage(),e.getCause());
         }
 
     }

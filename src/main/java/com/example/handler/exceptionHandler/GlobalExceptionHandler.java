@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler{
     @ExceptionHandler(RuntimeException.class)
     public void RunExceptionHandler(RuntimeException e){
-        log.info("出现异常,[{}]",e.getMessage());
+        e.printStackTrace();
+        log.info("出现异常,[{}:{}]",e.getCause(),e.getMessage());
     }
 }

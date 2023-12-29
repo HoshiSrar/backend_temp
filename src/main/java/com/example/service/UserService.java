@@ -17,4 +17,11 @@ public interface UserService extends IService<User>, UserDetailsService {
 
     User findUserByNameOrEmail(String text);
     UserDetails loadUserByUsername(String username);
+
+    /**
+     * 根据传入 user 的 email 修改密码
+     * @param user
+     * @return 修改成功返回true，否则false
+     */
+    boolean updateUserPasswordByEmail(User user);
 }

@@ -43,13 +43,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         //获取请求头中的token
         String token = request.getHeader("Authorization");
-        logger.info("token:"+token);
+        //logger.info("token:"+token);
         DecodedJWT jwt = null;
         //DecodedJWT jwt;
         try {
             jwt = jwtUtils.parseToJWT(token);
         }catch (JWTVerificationException e){
-            log.info("发生了JWT错误，全局异常处理不到，不干了");
+            log.info("发生了JWT错误，全局异常处理不到，打个标记");
         }
 
         if (jwt!=null){
