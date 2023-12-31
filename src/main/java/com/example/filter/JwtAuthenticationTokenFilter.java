@@ -57,8 +57,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user,null, user.getAuthorities());
             //token添加Request的相关信息作为 UserDetails 的详细信息
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            authenticationToken.setDetails(request.getAuthType());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+
+
+
 
             request.setAttribute(SystemConstants.ATTR_USER_ID, jwtUtils.toId(jwt));
 

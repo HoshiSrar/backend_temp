@@ -99,7 +99,7 @@ public class SecurityConfig {
     }
 
     //退出成功处理器
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String authorization = request.getHeader("Authorization");
         // 判断jwt是否可以废弃，成功废弃返回退出成功信息，否则返回退出失败
         if (jwtUtils.invalidateJwt(authorization)){
