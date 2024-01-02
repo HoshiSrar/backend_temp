@@ -1,6 +1,9 @@
 #开发环境
 cors:
-  allowable: "http://localhost:5173"
+  origin: '*'
+#  "http://localhost:5173"
+  credentials: false
+  methods: '*'
 limit:
 #  邮箱限制时间，单位秒。
   time: 1

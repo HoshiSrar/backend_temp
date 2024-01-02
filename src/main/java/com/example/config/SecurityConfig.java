@@ -6,8 +6,8 @@ import com.example.filter.JwtAuthenticationTokenFilter;
 import com.example.service.impl.UserServiceImpl;
 import com.example.utils.JwtUtils;
 import com.example.utils.WebUtils;
+import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
 
 @Configuration
 @Slf4j
@@ -47,7 +45,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests((authConf)-> authConf
                         .requestMatchers("/api/auth/**","/error","/test/*").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().hasAnyRole(SystemConstants.ROLE_DEFAULT)
                 )
                 .formLogin(fromConf-> fromConf
                         .loginProcessingUrl("/api/auth/login")

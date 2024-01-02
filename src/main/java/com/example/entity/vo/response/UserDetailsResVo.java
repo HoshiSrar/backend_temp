@@ -7,7 +7,7 @@ public class UserDetailsResVo {
     int gender;
     String phone;
     String qq;
-    String wechat;
-    private String descript;
+    String wx;
+    private String desc;
 
 }

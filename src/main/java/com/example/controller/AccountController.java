@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.entity.ResponseBean;
 import com.example.entity.dto.User;
 import com.example.entity.dto.UserDetails;
+import com.example.entity.vo.request.ChangePasswordVo;
+import com.example.entity.vo.request.ModifyEmailVo;
 import com.example.entity.vo.request.UserDetailsSaveVo;
 import com.example.entity.vo.response.AccountVo;
 import com.example.entity.vo.response.UserDetailsResVo;
@@ -43,6 +45,17 @@ public class AccountController {
                                           @RequestBody()UserDetailsSaveVo vo){
         boolean success = userDetailsService.saveUserDetails(id, vo);
         return success ? ResponseBean.success() : ResponseBean.failure(400,"此用户名已经被注册");
-        
+    }
+    @PostMapping("/modify-email")
+    public ResponseBean<Void> modifyEmail(@RequestAttribute(SystemConstants.ATTR_USER_ID) int id,
+                                          @RequestBody ModifyEmailVo emailVo){
+        String result = userService.modifyEmail(id, emailVo);
+        return result == null ? ResponseBean.success(): ResponseBean.failure(400, result);
+    }
+    @PostMapping("/change-password")
+    public ResponseBean<Void> changePassword(@RequestAttribute(SystemConstants.ATTR_USER_ID)int id,
+                                             @RequestBody ChangePasswordVo passwordVo){
+        String result = userService.changePassword(id, passwordVo);
+        return result ==null ? ResponseBean.success() : ResponseBean.failure(400, result);
     }
 }

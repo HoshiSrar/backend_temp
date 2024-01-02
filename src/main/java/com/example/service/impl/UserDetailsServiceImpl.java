@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.entity.dto.UserDetails;
 import com.example.mapper.UserDetailsMapper;
 import com.example.service.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class UserDetailsServiceImpl extends ServiceImpl<UserDetailsMapper, UserD
     }
 
     @Override
+    @Transactional
     public synchronized boolean saveUserDetails(int id, UserDetailsSaveVo detailsVo) {
         // 判断用户名是否被注册过
         User user = userService.findUserByNameOrEmail(detailsVo.getUsername());

@@ -41,7 +41,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
         //获取请求头中的token
         String token = request.getHeader("Authorization");
         DecodedJWT jwt = null;
@@ -59,10 +58,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             //token添加Request的相关信息作为 UserDetails 的详细信息
             authenticationToken.setDetails(request.getAuthType());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-
-
-
 
             request.setAttribute(SystemConstants.ATTR_USER_ID, jwtUtils.toId(jwt));
 

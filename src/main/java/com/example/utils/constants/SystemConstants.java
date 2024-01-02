@@ -33,8 +33,11 @@ public class SystemConstants
     public static final int ORDER_LIMIT = -101;
 
     /**
-     * 请求自定义属性
+     * 请求自定义属性:id。
      */
     public final static String ATTR_USER_ID = "userId";
-
+    /**
+     * 用户角色
+     */
+    public static final String ROLE_DEFAULT = "admin";
 }

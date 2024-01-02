@@ -24,7 +24,7 @@ public class UserDetailsSaveVo {
     @Length(max = 123)
     private String qq;
     @Length(max = 20)
-    private String wechat;
+    private String wx;
     @Length(max = 200)
-    private String descript;
+    private String desc;
 }
