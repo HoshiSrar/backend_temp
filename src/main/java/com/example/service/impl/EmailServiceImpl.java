@@ -133,7 +133,7 @@ public class EmailServiceImpl implements EmailService {
     }
     private boolean verifyEmailLimit(String ip){
         String key = SystemConstants.VERIFY_EMAIL_LIMIT + ip;
-        return flowUtils.limitOnceCheck(key, limitTime);
+        return flowUtils.limitEmailOnceCheck(key, limitTime);
     }
 
     /**

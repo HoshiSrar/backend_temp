@@ -34,9 +34,10 @@ public class CorsFilter extends HttpFilter {
         addCorsHeader(request,response);
         if (!Objects.equals(request.getMethod(), OPTIONS.toString())) {
             chain.doFilter(request, response);
-        }//如果是OPTIONS类型则直接返回回去
+        }
+        //如果是OPTIONS类型则直接返回回去
         response.setHeader("Access-Control-Max-Age", "86400");
-        response.setStatus(HttpStatus.NO_CONTENT.value());
+        response.setStatus(HttpStatus.OK.value());
     }
 
     /**

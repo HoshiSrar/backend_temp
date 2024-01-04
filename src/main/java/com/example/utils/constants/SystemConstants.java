@@ -17,21 +17,16 @@ public class SystemConstants
     /**
      * redis中，存储 ip 封禁黑名单的前缀
      */
-    public static final String VERIFY_BLACK_IP = "ip:blacklist";
+    public static final String VERIFY_BLACK_IP = "ip:blacklist:";
     /**
      * redis中，存储 ip 计数器的前缀
      */
-    public static final String VERIFY_COUNT_IP = "ip:countList";
-
+    public static final String VERIFY_COUNT_IP = "ip:countList:";
     /**
-     * 跨域过滤器优先级
+     * 过滤器优先级
      */
     public static final int ORDER_CORS = -102;
-    /**
-     * 限流过滤器优先级
-     */
     public static final int ORDER_LIMIT = -101;
-
     /**
      * 请求自定义属性:id。
      */
@@ -40,4 +35,8 @@ public class SystemConstants
      * 用户角色
      */
     public static final String ROLE_DEFAULT = "admin";
+    // 天气缓存相关
+    public static final String FORUM_WEATHER_CACHE = "weather:cache:";
+    // 论坛相关
+    public static final String FORUM_IMAGE_COUNTER = "forum:image:";
 }

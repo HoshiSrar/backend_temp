@@ -25,7 +25,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
                          AuthenticationException e) throws IOException, ServletException {
         //认证失败处理器
         e.printStackTrace();
-        log.info("认证处理处理器开始");
         ResponseBean result = null;
         if(e instanceof BadCredentialsException){
             result = ResponseBean.failure(505,e.getMessage());
@@ -34,9 +33,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         }else {
             result = ResponseBean.failure(500,"认证获授权失败");
         }
-        log.info("认证处理器结束");
         //响应给前端
         WebUtils.renderString(response, JSON.toJSONString(result));
+        log.info("认证失败处理结束，已发送响应回前端");
 
     }
 }

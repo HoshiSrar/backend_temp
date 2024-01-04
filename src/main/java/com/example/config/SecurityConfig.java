@@ -45,6 +45,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests((authConf)-> authConf
                         .requestMatchers("/api/auth/**","/error","/test/*").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().hasAnyRole(SystemConstants.ROLE_DEFAULT)
                 )
                 .formLogin(fromConf-> fromConf
@@ -79,6 +80,7 @@ public class SecurityConfig {
     //登录成功处理器
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        log.info("登录成功{}",user);
         Integer id = service.findUserByNameOrEmail(user.getUsername()).getId();
         //创建jwt
         String jwtToken = jwtUtils.createJwt(user, id, user.getUsername());
@@ -86,8 +88,9 @@ public class SecurityConfig {
                 .setExpire(jwtUtils.expireTime())
                 .setRole(user.getAuthorities().toString())
                 .setToken(jwtToken)
-                .setUserName(user.getUsername());
+                .setUsername(user.getUsername());
         WebUtils.renderString(response, ResponseBean.success(authorizeVo).asToJsonString());
+        System.out.println("");
     }
 
     //登录失败处理器

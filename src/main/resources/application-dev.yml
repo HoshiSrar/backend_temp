@@ -5,10 +5,18 @@ cors:
   credentials: false
   methods: '*'
 limit:
-#  邮箱限制时间，单位秒。
+#  邮箱限制时间，单位秒和ip的请求每分钟限制上限。
   time: 1
-#  同一ip的请求每分钟限制上限。
   ipRequestLimitNumber : 30
+minio:
+  address: "http://8.137.49.63:9000/"
+  login:
+    key: "minio"
+    password: "password"
+weather :
+#  和风天气的 key，
+  api: https://geoapi.qweather.com/v2/city/lookup?location=
+  key: d2cc04b4f410455b9b0149fdbddebf20
 spring:
   mail:
     host: smtp.qq.com
@@ -35,7 +43,12 @@ spring:
   data:
     redis:
       host: localhost
+  #      文件上传相关
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 2MB
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

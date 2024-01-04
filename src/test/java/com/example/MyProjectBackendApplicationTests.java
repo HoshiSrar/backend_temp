@@ -1,5 +1,6 @@
 package com.example;
 
+import com.alibaba.fastjson2.util.DateUtils;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.entity.dto.User;
@@ -9,6 +10,11 @@ import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.beans.Encoder;
+import java.util.Base64;
+import java.util.Date;
 
 @SpringBootTest
 class MyProjectBackendApplicationTests {
@@ -16,6 +22,8 @@ class MyProjectBackendApplicationTests {
     UserServiceImpl userService;
     @Resource
     RedisCache redisCache;
+    @Resource
+    PasswordEncoder encoder;
     @Test
     void contextLoads() {
 
@@ -36,5 +44,9 @@ class MyProjectBackendApplicationTests {
         redisCache.setCacheObject("你好", "全是中文");
         System.out.println(redisCache.keys("test"));
     }
+    @Test
+    void encodePassword(){
+    }
+
 
 }

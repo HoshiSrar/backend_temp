@@ -3,16 +3,21 @@ package com.example.controller;
 import com.example.entity.ResponseBean;
 import com.example.entity.dto.User;
 import com.example.entity.dto.UserDetails;
+import com.example.entity.dto.UserPrivacy;
 import com.example.entity.vo.request.ChangePasswordVo;
 import com.example.entity.vo.request.ModifyEmailVo;
+import com.example.entity.vo.request.PrivacySaveVo;
 import com.example.entity.vo.request.UserDetailsSaveVo;
 import com.example.entity.vo.response.AccountVo;
 import com.example.entity.vo.response.UserDetailsResVo;
+import com.example.entity.vo.response.UserPrivacyVo;
 import com.example.service.UserDetailsService;
+import com.example.service.UserPrivacyService;
 import com.example.service.UserService;
 import com.example.utils.BeanCopyUtils;
 import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +30,8 @@ public class AccountController {
     UserService userService;
     @Resource
     UserDetailsService userDetailsService;
+    @Resource
+    UserPrivacyService privacyService;
 
     @GetMapping("/info")
     public ResponseBean<AccountVo> info(@RequestAttribute(SystemConstants.ATTR_USER_ID) int id){
@@ -58,4 +65,17 @@ public class AccountController {
         String result = userService.changePassword(id, passwordVo);
         return result ==null ? ResponseBean.success() : ResponseBean.failure(400, result);
     }
+    @PostMapping("/save-privacy")
+    public ResponseBean<Void> savePrivacy(@RequestAttribute(SystemConstants.ATTR_USER_ID)int id,
+                                             @RequestBody @Valid PrivacySaveVo privacySaveVo){
+        privacyService.savePrivacy(id, privacySaveVo);
+        return ResponseBean.success();
+    }
+    @GetMapping("/privacy")
+    public ResponseBean<UserPrivacyVo> Privacy(@RequestAttribute(SystemConstants.ATTR_USER_ID)int id){
+        UserPrivacy userPrivacy = privacyService.userPrivacy(id);
+        UserPrivacyVo privacyVo = BeanCopyUtils.copyBean(userPrivacy, UserPrivacyVo.class);
+        return ResponseBean.success(privacyVo);
+    }
+
 }

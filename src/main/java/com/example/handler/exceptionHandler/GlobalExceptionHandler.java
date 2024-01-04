@@ -13,6 +13,6 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(RuntimeException.class)
     public void RunExceptionHandler(RuntimeException e){
         e.printStackTrace();
-        log.info("出现异常,[{}:{}]",e.getCause(),e.getMessage());
+        log.info("出现异常,[{},{}:{}]",e.getClass(),e.getCause(),e.getMessage());
     }
 }
