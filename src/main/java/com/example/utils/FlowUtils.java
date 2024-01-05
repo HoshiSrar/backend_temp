@@ -36,8 +36,8 @@ public class FlowUtils {
     /**
      * 在某个时间段内请求次数是否受限，如3秒内20次请求。
      * @param countKey 计数关键词 key
-     * @param frequency 请求频率 20
-     * @param period 计数周期(/s) 3
+     * @param frequency 请求频率 次数
+     * @param period 计数周期(/s)
      * @return 是否通过检查。
      */
     public boolean limitPeriodCounterCheck(String countKey,int frequency,int period){

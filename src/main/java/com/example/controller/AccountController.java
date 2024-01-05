@@ -17,6 +17,8 @@ import com.example.service.UserService;
 import com.example.utils.BeanCopyUtils;
 import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +78,10 @@ public class AccountController {
         UserPrivacy userPrivacy = privacyService.userPrivacy(id);
         UserPrivacyVo privacyVo = BeanCopyUtils.copyBean(userPrivacy, UserPrivacyVo.class);
         return ResponseBean.success(privacyVo);
+    }
+    @GetMapping("/ipaddress")
+    public ResponseBean<String> Ipaddress(HttpServletRequest req, HttpServletResponse rep){
+        return ResponseBean.success(req.getRemoteAddr());
     }
 
 }

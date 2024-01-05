@@ -39,4 +39,8 @@ public class SystemConstants
     public static final String FORUM_WEATHER_CACHE = "weather:cache:";
     // 论坛相关
     public static final String FORUM_IMAGE_COUNTER = "forum:image:";
+    // 发帖限制
+    public static final String FORUM_TOPIC_COUNTER = "forum:topic:creat:count:";
+    // 主题浏览缓存
+    public static final String FORUM_TOPIC_PREVIEW_CACHE = "topic:preview:";
 }
