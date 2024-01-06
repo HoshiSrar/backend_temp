@@ -7,6 +7,7 @@ import com.example.entity.ResponseBean;
 import com.example.entity.dto.Topic;
 import com.example.entity.dto.TopicType;
 import com.example.entity.vo.request.TopicCreateVo;
+import com.example.entity.vo.response.TopTopicVo;
 import com.example.entity.vo.response.TopicPreviewVo;
 import com.example.mapper.TopicMapper;
 import com.example.service.TopicService;
@@ -62,7 +63,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         topic.setUid(uid);
         try {
             if (save(topic)){
-                cacheUtils.deleteCache(SystemConstants.FORUM_TOPIC_PREVIEW_CACHE + "*");
+                cacheUtils.deleteCachePattern(SystemConstants.FORUM_TOPIC_PREVIEW_CACHE + "*");
                 return null;
             }
         }catch (Exception e){
@@ -88,6 +89,14 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         return list;
     }
 
+    @Override
+    public List<TopTopicVo> listTopTopics() {
+        List<Topic> topics = query().
+                select("id","title","top")
+                .eq("top", '1')
+                .list();
+        return topics.stream().map(topic -> BeanCopyUtils.copyBean(topic, TopTopicVo.class)).toList();
+    }
     private TopicPreviewVo resolveToPreview(Topic topic){
         TopicPreviewVo vo = new TopicPreviewVo();
         vo = BeanCopyUtils.copyBean(topic,TopicPreviewVo.class);
@@ -106,6 +115,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         }
         vo.setText(previewText.length() > 300 ? previewText.substring(0,300):previewText.toString());
         vo.setImages(images);
+        vo.setTime(new Date());
         return vo;
     }
 

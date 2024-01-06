@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.example.entity.ResponseBean;
 import com.example.entity.dto.TopicType;
 import com.example.entity.vo.request.TopicCreateVo;
+import com.example.entity.vo.response.TopTopicVo;
 import com.example.entity.vo.response.TopicPreviewVo;
 import com.example.entity.vo.response.TopicTypeVo;
 import com.example.entity.vo.response.WeatherVo;
@@ -61,6 +62,10 @@ public class ForumController {
                                                         @RequestParam @Min(0) int type){
         List<TopicPreviewVo> vo = topicService.listTopicByPage(page, type);
         return ResponseBean.success(vo);
+    }
+    @GetMapping("/top-topic")
+    public ResponseBean<List<TopTopicVo>> topTopic(){
+        return ResponseBean.success(topicService.listTopTopics());
     }
 
 }
