@@ -4,9 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.entity.dto.User;
+import com.example.entity.dto.UserAvatar;
+import com.example.entity.dto.UserDetails;
+import com.example.entity.dto.UserPrivacy;
 import com.example.entity.vo.request.EmailRegisterVo;
 import com.example.entity.vo.request.ResetVo;
 import com.example.service.EmailService;
+import com.example.service.UserAvatarService;
+import com.example.service.UserDetailsService;
+import com.example.service.UserPrivacyService;
 import com.example.utils.FlowUtils;
 import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
@@ -40,6 +46,12 @@ public class EmailServiceImpl implements EmailService {
 
    @Resource
    UserServiceImpl userService;
+   @Resource
+    UserPrivacyService userPrivacyService;
+   @Resource
+    UserDetailsService userDetailsService;
+   @Resource
+    UserAvatarService userAvatarService;
 
 
     @Override
@@ -62,7 +74,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String registerEmailAccount(EmailRegisterVo vo) {
-        String email = vo.getMail();
+        String email = vo.getEmail();
         String username = vo.getUsername();
         // 从 redis 中获取该邮箱的验证码
         String key = SystemConstants.VERIFY_EMAIL_DATA + email;
@@ -81,10 +93,17 @@ public class EmailServiceImpl implements EmailService {
         User user = new User().setUsername(username)
                 .setPassword(passwordEncode)
                 .setEmail(email)
-                .setRole("common");
+                .setRole("admin");
         if(userService.save(user)){
             stringRedisTemplate.delete(key);
-            return "注册成功:";
+            userPrivacyService.save(new UserPrivacy(user.getId()));
+            UserDetails details = new UserDetails();
+            details.setId(user.getId());
+            details.setGender(0);
+            userDetailsService.save(details);
+            userAvatarService.save(new UserAvatar(user.getId(),"/avatar/element.png"));
+
+            return null;
         }else {
             return "内部出现错误，请联系管理员";
         }

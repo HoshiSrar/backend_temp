@@ -35,7 +35,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseBean<String> registerUser(@RequestBody @Valid EmailRegisterVo registerVo){
         String message = emailService.registerEmailAccount(registerVo);
-        return ResponseBean.success(message);
+        return message == null ? ResponseBean.success(message) :ResponseBean.failure(500, message);
     }
     @PostMapping("/reset-confirm")
     public ResponseBean<String> resetConfirm(@RequestBody ResetVo vo){

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class EmailRegisterVo {
     @Email
-    String mail;
+    String email;
     @Length(max = 6,min = 6)
     String code;
     @Pattern(regexp = "^[a-zA-z0-9\\u4e00-\\u9fa5]+$")

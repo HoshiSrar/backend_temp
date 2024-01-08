@@ -2,6 +2,9 @@ package com.example.config;
 
 
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -48,4 +51,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
+    //@Bean
+    //public PaginationInnerInterceptor paginationInnerInterceptor(){
+    //    PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+    //    paginationInnerInterceptor.setMaxLimit(100L);
+    //    return paginationInnerInterceptor;
+    //}
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(){
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return interceptor;
+    }
 }

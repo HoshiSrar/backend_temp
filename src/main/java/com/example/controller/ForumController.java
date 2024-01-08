@@ -3,12 +3,12 @@ package com.example.controller;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.entity.ResponseBean;
+import com.example.entity.dto.Interact;
 import com.example.entity.dto.TopicType;
+import com.example.entity.vo.request.AddCommentVo;
 import com.example.entity.vo.request.TopicCreateVo;
-import com.example.entity.vo.response.TopTopicVo;
-import com.example.entity.vo.response.TopicPreviewVo;
-import com.example.entity.vo.response.TopicTypeVo;
-import com.example.entity.vo.response.WeatherVo;
+import com.example.entity.vo.request.TopicUpdateVo;
+import com.example.entity.vo.response.*;
 import com.example.service.TopicService;
 import com.example.service.TopicTypeService;
 import com.example.service.WeatherService;
@@ -17,9 +17,11 @@ import com.example.utils.constants.SystemConstants;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -60,12 +62,55 @@ public class ForumController {
     @GetMapping("/list-topic")
     public ResponseBean<List<TopicPreviewVo>> listTopic(@RequestParam @Min(0) int page,
                                                         @RequestParam @Min(0) int type){
-        List<TopicPreviewVo> vo = topicService.listTopicByPage(page, type);
+        List<TopicPreviewVo> vo = topicService.listTopicByPage(page+1, type);
         return ResponseBean.success(vo);
     }
     @GetMapping("/top-topic")
     public ResponseBean<List<TopTopicVo>> topTopic(){
         return ResponseBean.success(topicService.listTopTopics());
+    }
+
+    @GetMapping("/topic")
+    public ResponseBean<TopicDetailVo> topic(@RequestParam @Min(0) int tid,
+                                             @RequestAttribute(SystemConstants.ATTR_USER_ID) int id){
+        return ResponseBean.success(topicService.getTopic(tid,id));
+    }
+
+    @GetMapping("/interact")
+    public ResponseBean<Void> interact(@RequestParam @Min(0) int tid,
+                                       @RequestParam @Pattern(regexp = "like|collect") String type,
+                                       @RequestParam boolean state,
+                                       @RequestAttribute(SystemConstants.ATTR_USER_ID)int id){
+        topicService.interact(new Interact(tid, id,new Date(), type),state);
+        return ResponseBean.success();
+    }
+
+    @GetMapping("/collects")
+    public ResponseBean<List<TopicPreviewVo>>  collects(@RequestAttribute(SystemConstants.ATTR_USER_ID) int id){
+        return ResponseBean.success(topicService.listTopicCollect(id));
+    }
+    @PostMapping("/update-topic")
+    public ResponseBean<Void> updateTopic(@Valid @RequestBody TopicUpdateVo topicVo,
+                                          @RequestAttribute(SystemConstants.ATTR_USER_ID) int id){
+        String result = topicService.updateTopic(topicVo, id);
+        return result == null ?ResponseBean.success() : ResponseBean.failure(500,result) ;
+    }
+    @PostMapping("/add-comment")
+    public ResponseBean<Void> addComment(@RequestBody AddCommentVo vo,
+                                         @RequestAttribute(SystemConstants.ATTR_USER_ID) int id){
+        String result = topicService.createComment(id, vo);
+        return result == null ? ResponseBean.success():ResponseBean.failure(500, result);
+    }
+    @GetMapping("/comments")
+    public ResponseBean<List<CommentVo>> comments(@RequestParam @Min(0) int tid,
+                                                  @RequestParam @Min(0) int page){
+        return ResponseBean.success(topicService.comments(tid,page+1));
+    }
+    @GetMapping("/delete-comment")
+    public ResponseBean<Void> deleteComment(@RequestParam @Min(0) int id,
+                                        @RequestAttribute(SystemConstants.ATTR_USER_ID) int uid){
+        topicService.deleteComment(id, uid);
+        return ResponseBean.success();
     }
 
 }
