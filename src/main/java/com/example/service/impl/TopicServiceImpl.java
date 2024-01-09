@@ -116,7 +116,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
     @Override
     public List<TopTopicVo> listTopTopics() {
         List<Topic> topics = query().
-                select("id","title","top")
+                select("id","title","time","top")
                 .eq("top", '1')
                 .list();
         return topics.stream().map(topic -> BeanCopyUtils.copyBean(topic, TopTopicVo.class)).toList();
